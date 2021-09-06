@@ -5,29 +5,31 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Camera {
 
-    private final String name, type;
-    private final float latitude, longitude;
+    private String NAME, TYPE;
+    private double LATITUDE, LONGITUDE;
 
-    public Camera(String name, String type, float latitude, float longitude) {
-        this.name = name;
-        this.type = type;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public Camera() {}
+
+    public Camera(String name, String type, double latitude, double longitude) {
+        NAME = name;
+        TYPE = type;
+        LATITUDE = latitude;
+        LONGITUDE = longitude;
     }
 
     public String getName() {
-        return name;
+        return NAME;
     }
 
     public String getType() {
-        return type;
+        return TYPE;
     }
 
-    public float getLatitude() {
-        return latitude;
+    public double getLatitude() {
+        return LATITUDE;
     }
 
-    public float getLongitude() {
-        return longitude;
+    public double getLongitude() {
+        return LONGITUDE;
     }
 }
