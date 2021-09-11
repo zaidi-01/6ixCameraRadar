@@ -5,14 +5,20 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Camera {
 
-    private String NAME, TYPE;
+    public static enum Type {
+        SPEED,
+        RED_LIGHT
+    };
+
+    private String NAME;
+    private Type TYPE;
     private double LATITUDE, LONGITUDE;
 
     public Camera() {}
 
     public Camera(String name, String type, double latitude, double longitude) {
         NAME = name;
-        TYPE = type;
+        TYPE = Type.valueOf(type);
         LATITUDE = latitude;
         LONGITUDE = longitude;
     }
@@ -21,7 +27,7 @@ public class Camera {
         return NAME;
     }
 
-    public String getType() {
+    public Type getType() {
         return TYPE;
     }
 
