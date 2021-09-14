@@ -11,12 +11,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Database {
+public class DatabaseHelper {
 
     private final DatabaseReference mDatabaseReference;
     private final List<Camera> cameras = new ArrayList<>();
 
-    public Database() {
+    public DatabaseHelper() {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("cameras");
     }
 

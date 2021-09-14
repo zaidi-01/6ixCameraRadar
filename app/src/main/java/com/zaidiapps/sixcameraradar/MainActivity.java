@@ -1,6 +1,9 @@
 package com.zaidiapps.sixcameraradar;
 
+import static com.zaidiapps.sixcameraradar.Utils.checkPermissions;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,17 +13,24 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.LocationServices;
+
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = this.getClass().getName();
+    private static  final String TAG = MainActivity.class.getSimpleName();
+
     private final ActivityResultLauncher<String> requestPermission =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    Log.e(TAG, "PERMISSION GRANTED");
-                } else {
-                    Log.e(TAG, "PERMISSION DENIED");
-                }
-            });
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(), isGranted -> {
+                        if (isGranted) {
+                            Log.i(TAG, "PERMISSION GRANTED");
+                            setupGeofences();
+                        } else {
+                            Log.w(TAG, "PERMISSION DENIED");
+                        }
+                    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +42,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (!checkPermissions()) {
+        if (!checkPermissions(this)) {
             requestPermissions();
+        } else {
+            setupGeofences();
         }
-    }
-
-    private boolean checkPermissions() {
-        int permission;
-        if (Build.VERSION.SDK_INT < 29)
-            permission = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-        else
-            permission = checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-
-        return permission == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermissions() {
@@ -56,5 +58,27 @@ public class MainActivity extends AppCompatActivity {
                         == PackageManager.PERMISSION_DENIED) {
             requestPermission.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void setupGeofences() {
+        FusedLocationProviderClient fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(this);
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                GeofenceHelper geofenceHelper = new GeofenceHelper(this);
+                GeofencingClient geofencingClient =
+                        LocationServices.getGeofencingClient(this);
+
+                geofenceHelper.setupGeofences(
+                        location.getLatitude(),
+                        location.getLongitude(),
+                        geofencingClient
+                );
+            } else {
+                Log.e(TAG, "Location null");
+            }
+        });
     }
 }

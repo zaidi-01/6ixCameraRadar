@@ -5,37 +5,42 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Camera {
 
-    public static enum Type {
+    public enum Type {
         SPEED,
         RED_LIGHT
-    };
+    }
 
-    private String NAME;
-    private Type TYPE;
-    private double LATITUDE, LONGITUDE;
+    private String id, name;
+    private Type type;
+    private double latitude, longitude;
 
     public Camera() {}
 
-    public Camera(String name, String type, double latitude, double longitude) {
-        NAME = name;
-        TYPE = Type.valueOf(type);
-        LATITUDE = latitude;
-        LONGITUDE = longitude;
+    public Camera(String id, String name, String type, double latitude, double longitude) {
+        this.id = id;
+        this.name = name;
+        this.type = Type.valueOf(type);
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
-        return NAME;
+        return name;
     }
 
     public Type getType() {
-        return TYPE;
+        return type;
     }
 
     public double getLatitude() {
-        return LATITUDE;
+        return latitude;
     }
 
     public double getLongitude() {
-        return LONGITUDE;
+        return longitude;
     }
 }
