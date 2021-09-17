@@ -39,6 +39,14 @@ public class DatabaseHelper {
         });
     }
 
+    public Camera getCameraById(String id) {
+        if (!cameras.isEmpty()) {
+            return cameras.stream().filter(camera -> camera.getId().equals(id)).findFirst().orElse(null);
+        }
+
+        return  null;
+    }
+
     public interface DataStatus {
         void DataIsLoaded(List<Camera> cameras);
     }

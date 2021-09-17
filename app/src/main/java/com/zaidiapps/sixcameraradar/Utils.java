@@ -8,7 +8,7 @@ import android.os.Build;
 public class Utils {
 
     public static boolean checkPermissions(Context context) {
-        if (Build.VERSION.SDK_INT < 29)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
             return context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED;
         else

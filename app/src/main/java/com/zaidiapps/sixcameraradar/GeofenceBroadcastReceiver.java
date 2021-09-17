@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
@@ -13,6 +12,6 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Geofence triggered");
-        Toast.makeText(context, "Geofence triggered", Toast.LENGTH_SHORT).show();
+        GeofenceJobIntentService.enqueueWork(context, intent);
     }
 }
