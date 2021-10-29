@@ -20,7 +20,6 @@ public class GeofenceJobIntentService extends JobIntentService {
 
     public static final String CHANNEL_ID = "100";
     private static final int GEOFENCE_JOB_ID = 100;
-    private static final int NOTIFICATION_ID = 100;
 
     public static void enqueueWork(Context context, Intent intent) {
         enqueueWork(context, GeofenceJobIntentService.class, GEOFENCE_JOB_ID, intent);
@@ -52,9 +51,10 @@ public class GeofenceJobIntentService extends JobIntentService {
                         camera.getType() == Camera.Type.SPEED ? R.string.speed : R.string.red_light))
                 .setContentText(camera.getName())
                 .setSmallIcon(R.drawable.ic_launcher_background)
+                .setTimeoutAfter(300000)
                 .build();
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(NOTIFICATION_ID, notification);
+        notificationManager.notify((int) System.currentTimeMillis(), notification);
     }
 }
