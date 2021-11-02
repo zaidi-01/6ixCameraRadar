@@ -50,7 +50,8 @@ public class GeofenceJobIntentService extends JobIntentService {
                 .setContentTitle(getString(
                         camera.getType() == Camera.Type.SPEED ? R.string.speed : R.string.red_light))
                 .setContentText(camera.getName())
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(camera.getType() == Camera.Type.SPEED ?
+                        R.drawable.ic_notif_speed_camera : R.drawable.ic_notif_red_light_camera)
                 .setTimeoutAfter(300000)
                 .build();
 
